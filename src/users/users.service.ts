@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 
 export interface User {
   id: number;
+  email: string;
+  password: string;
   name: string;
-  phone: string;
+  age: number;
 }
 
 @Injectable()
@@ -12,18 +15,17 @@ export class UsersService {
   private users = [
     {
       id: 1,
-      name: 'User 1',
-      phone: '123456789',
+      email: 'aa@aaa.com',
+      password: '123456',
+      name: 'John Doe',
+      age: 30
     },
     {
       id: 2,
-      name: 'User 2',
-      phone: '987654321',
-    },
-    {
-      id: 3,
-      name: 'User 3',
-      phone: '123123123',
+      email: 'bbb@bb.com',
+      password: 'asdfafds',
+      name: 'Javier',
+      age: 32
     },
   ]
 
@@ -31,5 +33,13 @@ export class UsersService {
 
   getUsers(): User[] {
     return this.users;
+  }
+
+  createUser(user: CreateUserDto): User {
+    this.users.push({
+      id: this.users.length,
+      ...user
+    });
+    return { id: this.users.length, ...user };
   }
 }
