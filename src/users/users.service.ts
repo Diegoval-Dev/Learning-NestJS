@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
+export interface User {
+  id: number;
+  name: string;
+  phone: string;
+}
+
 @Injectable()
 export class UsersService {
 
@@ -23,7 +29,7 @@ export class UsersService {
 
 
 
-  getUsers(){
+  getUsers(): User[] {
     return this.users;
   }
 }
