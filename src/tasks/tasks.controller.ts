@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Patch, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { query } from 'express';
 
 @Controller('tasks')
 export class TasksController {
@@ -13,6 +12,13 @@ export class TasksController {
   ) {
     console.log(query);
     return this.tasksService.getTasks();
+  }
+
+  @Get('/:id')
+  getTaskById(
+    @Param('id') id: string
+  ) {
+    return this.tasksService.getTaskById(parseInt(id));
   }
 
   @Post()
