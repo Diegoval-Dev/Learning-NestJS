@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, ParseBoolPipe, ParseIntPipe, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ValidateUsersPipe } from './pipes/validate-users/validate-users.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -13,8 +14,37 @@ export class UsersController {
   }
 
   @Post()
+  @HttpCode(201)
   createUser(@Body() user: CreateUserDto) {
     return this.usersService.createUser(user);
   }
+
+  @Get("ticket/:id")
+  getTicket(
+    @Param("id", ParseIntPipe) 
+    id: number
+  ) {
+    return id + 10;
+  }
+
+  @Get('active/:status')
+  isUserActive(
+    @Param('status', ParseBoolPipe) 
+    status: boolean
+  ) {
+    console.log(typeof status)
+    return status;
+  }
+
+  @Get('greet')
+  greet(
+    @Query(ValidateUsersPipe) query: {name: string, age: number}
+  ){
+    console.log(typeof query.age)
+    console.log(typeof query.name)
+    return `Hello ${query.name}, you are ${query.age + 1} years old`
+  }
+
+
 
 }
